@@ -1,0 +1,17 @@
+.software {
+    width: 119px;
+    height: 228px;
+}
+
+@media only screen and (min-device-width: 1201px) {
+    .software {
+        background:url(software.png) -8px -8px;
+    }
+}
+
+@media only screen and (min-device-width: 1101px)
+and (max-device-width: 1200px) {
+    .software {
+        background:url(software.png) -13px -8px;
+    }
+}
