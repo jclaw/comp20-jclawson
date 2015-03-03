@@ -1,5 +1,4 @@
 function init() {
-	console.log("init()");
 	var canvas = document.getElementById('game_canvas');
     var ctx = canvas.getContext('2d');
     
@@ -9,7 +8,5 @@ function init() {
 		ctx.drawImage(img, 83, 23, 13, 14, 15, 29, 13, 14);
 	}, false);
 	img.src = 'pacman10-hp-sprite.png';
-    
 
-              
 }
