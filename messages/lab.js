@@ -13,7 +13,7 @@ function myCallbackFunction() {
 		data = JSON.parse(xhr.responseText);
 		var result = "";
 		for (i = 0; i < data.length; i++) {
-			result += "<div><p>" + data[i].content + " - " + data[i].username + "</p></div>";
+			result += "<p>" + data[i].content + " - " + data[i].username + "</p>";
 		}
 		document.getElementById("messages").innerHTML = result;
 	}
