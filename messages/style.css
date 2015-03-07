@@ -1,7 +1,8 @@
 #messages p {
-	background-color: lightgray;
+	background-color: lightblue;
 	border-style: solid;
 	border-width: 1px;
-	border-radius: 3px;
-	display: inline-block;
+	border-radius: 5px;
+	padding: 5px;
+	display: block;
 }
