@@ -1,5 +1,4 @@
 function parse() {
-	console.log("In parse function");
 	xhr = new XMLHttpRequest();
 	xhr.open("get", "data.json", true);
 	xhr.onreadystatechange = myCallbackFunction;
