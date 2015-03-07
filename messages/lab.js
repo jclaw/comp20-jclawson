@@ -10,7 +10,11 @@ function parse() {
 
 function myCallbackFunction() {
 	if (xhr.readyState == 4 && xhr.status == 200) {
-		data = JSON.parse("data.json");
-		document.getElementById("messages").innerHTML = xhr.responseText;
+		data = JSON.parse(xhr.responseText);
+		var result = "";
+		for (i = 0; i < data.length; i++) {
+			result += "<div><p>" + data[i].content + " - " + data[i].username + "</p></div>";
+		}
+		document.getElementById("messages").innerHTML = result;
 	}
 }
