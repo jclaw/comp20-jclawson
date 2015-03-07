@@ -2,5 +2,6 @@
 	background-color: lightgray;
 	border-style: solid;
 	border-width: 1px;
-	border-bottom: none;
+	border-radius: 3px;
+	display: inline-block;
 }
