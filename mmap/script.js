@@ -19,22 +19,7 @@ function init()
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	getMyLocation();
 
-	// making XML request
-	request.open("post", "https://secret-about-box.herokuapp.com/sendLocation", true);
-	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	request.onreadystatechange = dataReady;
-	request.send("login=" + login + "&lat=" + myLat + "&lng=" + myLng);
-}
 
-
-function dataReady() {
-	if (request.readyState == 4 && request.status == 200) {
-		data = JSON.parse(request.responseText);
-		// Add markers for all people, skipping self
-		for (var i = 1; i < data.length; i++) {
-			createMarker(data[i]);
-		}
-	}
 }
 
 
@@ -44,12 +29,32 @@ function getMyLocation() {
 			myLat = position.coords.latitude;
 			myLng = position.coords.longitude;
 			renderMap();
+
+			// making XML request
+			request.open("post", "https://secret-about-box.herokuapp.com/sendLocation", true);
+			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			request.onreadystatechange = dataReady;
+			request.send("login=" + login + "&lat=" + myLat + "&lng=" + myLng);
 		});
 	}
 	else {
 		alert("Geolocation is not supported by your web browser.  What a shame!");
 	}
 }
+
+function dataReady() {
+	if (request.readyState == 4 && request.status == 200) {
+		data = JSON.parse(request.responseText);
+		console.log(data);
+		// Add markers for all people, skipping self
+		for (var i = 0; i < data.length; i++) {
+			if (data[i].login != "RonConnelly") {
+				createMarker(data[i]);
+			}
+		}
+	}
+}
+
 
 function renderMap()
 {
