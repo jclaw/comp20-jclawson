@@ -87,7 +87,7 @@ function renderMap()
 
 
 	// Create marker for self
-	var image = 'minion.png'
+	var image = 'minion_small.png'
 	marker = new google.maps.Marker({
 		position: me,
 		title: "Logged in!",
