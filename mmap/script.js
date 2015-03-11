@@ -1,3 +1,26 @@
+/*
+function parse() {
+	xhr = new XMLHttpRequest();
+	xhr.open("get", "data.json", true);
+
+}
+
+function myCallbackFunction() {
+	if (xhr.readyState == 4 && xhr.status == 200) {
+		data = JSON.parse(xhr.responseText);
+		var result = "";
+		for (i = 0; i < data.length; i++) {
+			result += "<p>" + data[i].content + " - " + data[i].username + "</p>";
+		}
+		document.getElementById("messages").innerHTML = result;
+	}
+}
+
+*/
+
+//////////////////////////////////////////////////////////////////
+
+var login = "RonConnelly";
 var myLat = 0;
 var myLng = 0;
 var request = new XMLHttpRequest();
@@ -18,7 +41,22 @@ function init()
 	console.log("Call before getMyLocation()");
 	getMyLocation();
 	console.log("Call after getMyLocation()");
+
+	// making XML request
+	request.open("post", "https://secret-about-box.herokuapp.com/sendLocation", true);
+	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	request.onreadystatechange = parse;
+	request.send("login=" + login + "&lat=" + myLat + "&lng=" + myLng);
 }
+
+
+function parse() {
+	if (request.readyState == 4 && request.status == 200) {
+		var data = JSON.parse(request.responseText);
+		console.log(data);
+	}
+}
+
 
 function getMyLocation() {
 	console.log("In getMyLocation()");
