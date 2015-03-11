@@ -87,12 +87,12 @@ function renderMap()
 
 
 	// Create marker for self
-	var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+	var image = 'minion.png'
 	marker = new google.maps.Marker({
 		position: me,
 		title: "Logged in!",
 		map: map,
-		icon: iconBase + 'minion.png'
+		icon: image
 	});
 	
 		infowindow.setContent(marker.title);
