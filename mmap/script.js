@@ -32,12 +32,14 @@ var myOptions = {
 		};
 var map;
 var marker;
+var data;
 var infowindow = new google.maps.InfoWindow();
 var places;
 
 function init()
 {
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
 	console.log("Call before getMyLocation()");
 	getMyLocation();
 	console.log("Call after getMyLocation()");
@@ -52,8 +54,9 @@ function init()
 
 function parse() {
 	if (request.readyState == 4 && request.status == 200) {
-		var data = JSON.parse(request.responseText);
+		data = JSON.parse(request.responseText);
 		console.log(data);
+		console.log(data['error']);
 	}
 }
 
@@ -64,6 +67,8 @@ function getMyLocation() {
 		navigator.geolocation.getCurrentPosition(function(position) {
 			myLat = position.coords.latitude;
 			myLng = position.coords.longitude;
+			console.log("myLat: " + myLat);
+			console.log("myLng: " + myLng);
 			renderMap();
 		});
 	}
@@ -80,52 +85,70 @@ function renderMap()
 	// Update map and go there...
 	map.panTo(me);
 
-	// Create a marker
+
+	// Create marker for self
 	marker = new google.maps.Marker({
 		position: me,
-		title: "Here I Am!"
+		title: data[0].login,
+		map: map
 	});
-	marker.setMap(map);
+	
 		
 	// Open info window on click of marker
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.setContent(marker.title);
 		infowindow.open(map, marker);
 	});
-	
-	// Calling Google Places API
-	var request = {
-		location: me,
-		radius: '500',
-		types: ['food']
-	};
-	service = new google.maps.places.PlacesService(map);
-	service.search(request, callback);
-}
 
-// Taken from http://code.google.com/apis/maps/documentation/javascript/places.html
-function callback(results, status)
-{
-	if (status == google.maps.places.PlacesServiceStatus.OK) {
-		alert("Got places back!");
-		places = results;
-		for (var i = 0; i < results.length; i++) {
-			createMarker(results[i]);
+
+	// Add markers for all people, skipping self
+	if (data['error'] == undefined) {
+		alert("Found people!");
+		for (var i = 1; i < data.length; i++) {
+			createMarker(data[i]);
 		}
 	}
 }
 
 function createMarker(place)
 {
-	var placeLoc = place.geometry.location;
+	// console.log(place.login);
+	var placeLoc = new google.maps.LatLng(place.lat, place.lng);
 	var marker = new google.maps.Marker({
 		map: map,
-		position: place.geometry.location
+		position: placeLoc,
+		title: place.login
 	});
 
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.close();
-		infowindow.setContent(place.name);
+		var d = distanceToMe(place);
+		infowindow.setContent(place.login + ": " + d + " miles away");
 		infowindow.open(map, this);
 	});
+}
+
+function distanceToMe(place) {
+	// transfer variables
+	var lat1 = myLat;
+	var lon1 = myLng;
+	var lat2 = place.lat;
+	var lon2 = place.lng;
+
+	// calculations
+    var R = 6371; // km 
+    //has a problem with the .toRad() method below.
+    var dLat = toRad(lat2-lat1);  
+    var dLon = toRad(lon2-lon1);  
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+                    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
+                    Math.sin(dLon/2) * Math.sin(dLon/2);  
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; 
+
+	return d.toFixed(4);
+}
+
+function toRad(x) {
+	return x * Math.PI / 180;
 }
