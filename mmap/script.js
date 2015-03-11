@@ -87,18 +87,17 @@ function renderMap()
 
 
 	// Create marker for self
+	var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 	marker = new google.maps.Marker({
 		position: me,
-		title: data[0].login,
-		map: map
+		title: "Logged in!",
+		map: map,
+		icon: iconBase + 'minion.png'
 	});
 	
-		
-	// Open info window on click of marker
-	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.setContent(marker.title);
 		infowindow.open(map, marker);
-	});
+
 
 
 	// Add markers for all people, skipping self
@@ -123,7 +122,7 @@ function createMarker(place)
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.close();
 		var d = distanceToMe(place);
-		infowindow.setContent(place.login + ": " + d + " miles away");
+		infowindow.setContent(marker.title + ": " + d + " miles away");
 		infowindow.open(map, this);
 	});
 }
