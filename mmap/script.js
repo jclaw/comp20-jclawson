@@ -1,25 +1,3 @@
-/*
-function parse() {
-	xhr = new XMLHttpRequest();
-	xhr.open("get", "data.json", true);
-
-}
-
-function myCallbackFunction() {
-	if (xhr.readyState == 4 && xhr.status == 200) {
-		data = JSON.parse(xhr.responseText);
-		var result = "";
-		for (i = 0; i < data.length; i++) {
-			result += "<p>" + data[i].content + " - " + data[i].username + "</p>";
-		}
-		document.getElementById("messages").innerHTML = result;
-	}
-}
-
-*/
-
-//////////////////////////////////////////////////////////////////
-
 var login = "RonConnelly";
 var myLat = 0;
 var myLng = 0;
@@ -31,7 +9,7 @@ var myOptions = {
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 var map;
-var marker;
+var myMarker;
 var data;
 var infowindow = new google.maps.InfoWindow();
 var places;
@@ -39,43 +17,38 @@ var places;
 function init()
 {
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-	console.log("Call before getMyLocation()");
 	getMyLocation();
-	console.log("Call after getMyLocation()");
 
 	// making XML request
 	request.open("post", "https://secret-about-box.herokuapp.com/sendLocation", true);
 	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	request.onreadystatechange = parse;
+	request.onreadystatechange = dataReady;
 	request.send("login=" + login + "&lat=" + myLat + "&lng=" + myLng);
 }
 
 
-function parse() {
+function dataReady() {
 	if (request.readyState == 4 && request.status == 200) {
 		data = JSON.parse(request.responseText);
-		console.log(data);
-		console.log(data['error']);
+		// Add markers for all people, skipping self
+		for (var i = 1; i < data.length; i++) {
+			createMarker(data[i]);
+		}
 	}
 }
 
 
 function getMyLocation() {
-	console.log("In getMyLocation()");
 	if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
 		navigator.geolocation.getCurrentPosition(function(position) {
 			myLat = position.coords.latitude;
 			myLng = position.coords.longitude;
-			console.log("myLat: " + myLat);
-			console.log("myLng: " + myLng);
 			renderMap();
 		});
 	}
 	else {
 		alert("Geolocation is not supported by your web browser.  What a shame!");
 	}
-	console.log("Leaving getMyLocation()");
 }
 
 function renderMap()
@@ -88,30 +61,20 @@ function renderMap()
 
 	// Create marker for self
 	var image = 'minion_small.png'
-	marker = new google.maps.Marker({
+	myMarker = new google.maps.Marker({
 		position: me,
 		title: "Logged in!",
 		map: map,
 		icon: image
 	});
 	
-		infowindow.setContent(marker.title);
-		infowindow.open(map, marker);
+		infowindow.setContent(myMarker.title);
+		infowindow.open(map, myMarker);
 
-
-
-	// Add markers for all people, skipping self
-	if (data['error'] == undefined) {
-		alert("Found people!");
-		for (var i = 1; i < data.length; i++) {
-			createMarker(data[i]);
-		}
-	}
 }
 
 function createMarker(place)
 {
-	// console.log(place.login);
 	var placeLoc = new google.maps.LatLng(place.lat, place.lng);
 	var marker = new google.maps.Marker({
 		map: map,
