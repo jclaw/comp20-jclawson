@@ -45,7 +45,6 @@ function getMyLocation() {
 function dataReady() {
 	if (request.readyState == 4 && request.status == 200) {
 		data = JSON.parse(request.responseText);
-		console.log(data);
 		// Add markers for all people, skipping self
 		for (var i = 0; i < data.length; i++) {
 			if (data[i].login != "RonConnelly") {
