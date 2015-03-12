@@ -67,13 +67,19 @@ function renderMap()
 	var image = 'minion_small.png'
 	myMarker = new google.maps.Marker({
 		position: me,
-		title: "Logged in!",
+		title: "RonConnelly",
 		map: map,
 		icon: image
 	});
 	
+	infowindow.setContent("Logged in!");
+	infowindow.open(map, myMarker);
+
+	google.maps.event.addListener(myMarker, 'click', function() {
+		infowindow.close();
 		infowindow.setContent(myMarker.title);
 		infowindow.open(map, myMarker);
+	});
 
 }
 
