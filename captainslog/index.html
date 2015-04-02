@@ -7,7 +7,11 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			console.log("test");
+			$('#msg').focus();
+			$("#log").prepend(localStorage.getItem('messages'));        
+			$("#msg").keypress(function(enterkey){
+				console.log("test");
+			});
 		});
 	</script>
 </head>
