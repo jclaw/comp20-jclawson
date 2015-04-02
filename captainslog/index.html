@@ -10,7 +10,13 @@
 			$('#msg').focus();
 			$("#log").prepend(localStorage.getItem('messages'));        
 			$("#msg").keypress(function(enterkey){
-				console.log("test");
+				if (enterkey.which == 13) {
+					date = new Date();
+					msgDate = date.toDateString();
+					time = date.toTimeString();
+					msg = "<p>" + time + " " + msgDate + "</p>";
+					console.log(msg);
+				}
 			});
 		});
 	</script>
