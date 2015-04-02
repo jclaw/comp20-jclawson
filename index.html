@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>Captain's Log</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#msg').focus();
+			$("#log").prepend(localStorage.getItem('messages'));        
+			$("#msg").keypress(function(enterkey){
+				if (enterkey.which == 13) {
+					date = new Date();
+					msg_date = date.toDateString();
+					time = date.toTimeString();
+					message = "<p>" + time +" " + msg_date + "   ::   " + $("#msg").val() + "</p>";
+					$("#log").prepend(message);
+					localStorage.setItem('messages', $('#log').html());
+					$('#msg').val('');
+					$('#msg').focus();
+				}
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<h1>Captain's Log</h1>
+	<h3>New entry: <input type="text" id="msg" name="msg" size="30" /></h3>
+	<div id="log"></div>
+</body>
+</html>
