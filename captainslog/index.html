@@ -14,8 +14,11 @@
 					date = new Date();
 					msgDate = date.toDateString();
 					time = date.toTimeString();
-					msg = "<p>" + time + " " + msgDate + "   ::   " + $("#msg").val() + "</p>";
-					console.log(msg);
+					msg = "<p>" + time + " " + msgDate + " :::: " + $("#msg").val() + "</p>";
+					$("#log").prepend(msg);
+					localStorage.setItem('messages', $('#log').html()); //replace all html
+					$('#msg').val(''); //set the value to nothing after each entry
+					$('#msg').focus();
 				}
 			});
 		});
