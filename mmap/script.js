@@ -31,7 +31,7 @@ function getMyLocation() {
 			renderMap();
 
 			// making XML request
-			request.open("post", "https://secret-about-box.herokuapp.com/sendLocation", true);
+			request.open("post", "https://calm-lake-4446.herokuapp.com/sendLocation", true);
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			request.onreadystatechange = dataReady;
 			request.send("login=" + login + "&lat=" + myLat + "&lng=" + myLng);
