@@ -15,6 +15,12 @@ var db = MongoClient.connect(mongoUri, function(error, databaseConnection) {
 	db = databaseConnection;
 });
 
+app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
+});
+
 app.post('/sendLocation', function(request, response) {
 	var login = request.body.login;
 	var lat = request.body.lat;
