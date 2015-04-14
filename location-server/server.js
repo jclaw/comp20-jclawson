@@ -23,8 +23,8 @@ app.use(function(req, res, next) {
 
 app.post('/sendLocation', function(request, response) {
 	var login = request.body.login;
-	var lat = request.body.lat;
-	var lng = request.body.lng;
+	var lat = parseFloat(request.body.lat);
+	var lng = parseFloat(request.body.lng);
 	var date = new Date();
 	db.collection('locations', function(error1, coll) {
 		
