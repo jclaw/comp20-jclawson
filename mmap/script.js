@@ -47,7 +47,7 @@ function dataReady() {
 		data = JSON.parse(request.responseText);
 		// Add markers for all people, skipping self
 		for (var i = 0; i < data.length; i++) {
-			if (data[i].login != "RonConnelly") {
+			if (data[i].login != login) {
 				createMarker(data[i]);
 			}
 		}
@@ -67,7 +67,7 @@ function renderMap()
 	var image = 'minion_small.png'
 	myMarker = new google.maps.Marker({
 		position: me,
-		title: "RonConnelly",
+		title: login,
 		map: map,
 		icon: image
 	});
