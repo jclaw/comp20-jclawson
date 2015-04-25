@@ -19,16 +19,48 @@
 	<h2>Issues Found</h2>
 	<div class="issue">
 		<div class="issueTitle"><h3>Cross-Site Scripting</h3></div>
-		<ul>
+		<ul class="issueContent">
 			<li>Location: login field in POST API to sendLocation</li>
-			<li>Severity of issue: HIGH. Content on the page can easily be modified because the program trusts user input</li>
-			<li>Description: </li>
+			<li>Severity of issue: High. Content on the page can easily be modified because the program trusts user input</li>
+			<li>Description: I passed a script to the sendLocation API using Postman, and saw that it was put directly into the returned JSON. The script ran on the Heroku checkin log because the logins are not escaped. On the client-side application, the falsified login appears without a name on the map.</li>
 			<img class="horizImage" src="1_description.png" alt="issue 1 description">
 			<li>Proof of vulnerability: </li>
 			<img class="vertImage" src="1_proof.png" alt="issue 1 proof">
+			<img class="horizImage" src="1_proof2.png" alt="issue 1 proof 2">
+			<li>Resolution: To prevent this issue, remove the ability for data to be interpreted as code by changing characters into their HTML equivalents.</li>
+		</ul>
+
+	</div>
+
+
+	<div class="issue">
+		<div class="issueTitle"><h3>MongoDB Code Injection</h3></div>
+		<ul class="issueContent">
+			<li>Location: location.json GET API</li>
+			<li>Severity of issue: Moderate. I was able to have the API return a user's location without providing the user's login. Instead, I passed it the parameter <code>login[$gt]</code>, which returned a user's login.</li>
+			<li>Description: </li>
+			<img class="" src="" alt="">
+			<li>Proof of vulnerability: </li>
+			<img class="horizImage" src="2_proof.png" alt="issue 2 proof 1">
+			<img class="" src="" alt="">
 			<li>Resolution: </li>
 		</ul>
 	</div>
+
+	<div class="issue">
+		<div class="issueTitle"><h3>Title</h3></div>
+		<ul class="issueContent">
+			<li>Location:</li>
+			<li>Severity of issue: </li>
+			<li>Description: </li>
+			<img class="" src="" alt="">
+			<li>Proof of vulnerability: </li>
+			<img class="" src="" alt="">
+			<img class="" src="" alt="">
+			<li>Resolution: </li>
+		</ul>
+	</div>
+
 	<h2>Conclusion</h2>
 </body>
 
