@@ -12,10 +12,14 @@
 	<h1>Security Assessment of Marauder's Map</h1>
 	<p>Prepared by <a href="www.jacksonclawson.com">Jackson Clawson</a> –– 4/24/2015</p>
 	<h2>Introduction</h2>
-	<p>
+	<p>This assessment tests the security of a classmate's <a href="http://tuftsdev.github.io/comp20-jgallagher/mmap/">The Real Marauder's Map</a> application for <a href="http://tuftsdev.github.io/WebProgramming/">Comp 20</a> at Tufts University. The Real Marauder's Map has an API that allows a user to send their location to a database and retrieve all of the locations of other users in the database. The second part of the Map is the web interface that renders the locations of other users on a map in the browser using the Google Maps API. However, the app has many security vulnerabilities that deem it unsuitable for public use. This document provides some examples of these vulnerabilities. Take note that we were specifically asked to disregard security concerns when building the client and server for The Real Marauder's Map. 
 	</p>
 	<h2>Methodology</h2>
+	<p>I started by exploring security issues using the "black box" method, without being exposed to the backend code. I then inspected the classmate's code for deeper investigation with hopes of finding logic errors that would make the app more vulnerable. I used the Postman Chrome extension for these explorations.
+	</p>
 	<h2>Abstract of Findings</h2>
+	<p>All of the security issues I've found stem from being to trusting of user input, as is often the case. Out of the three that I've found, two will crash the site and render it inoperable, and one is a risk if the locations of users were to be made private in the future, because it reveals a user's location without providing their login.
+	</p>
 	<h2>Issues Found</h2>
 	<div class="issue">
 		<div class="issueTitle"><h3>Cross-Site Scripting</h3></div>
@@ -37,31 +41,32 @@
 		<div class="issueTitle"><h3>MongoDB Code Injection</h3></div>
 		<ul class="issueContent">
 			<li>Location: location.json GET API</li>
-			<li>Severity of issue: Moderate. I was able to have the API return a user's location without providing the user's login. Instead, I passed it the parameter <code>login[$gt]</code>, which returned a user's login.</li>
-			<li>Description: </li>
-			<img class="" src="" alt="">
+			<li>Severity of issue: Low. I was able to have the API return a user's location without providing the user's login. Instead, I passed it the parameter <code>login[$gt]</code>, which returned the location of the first user to check in.This security vulnerability has serious implications if the locations of users were made private, because the location of users would be accessible without knowing a user's login.
+			</li>
+			<li>Description: I found this problem by searching for common security issues with NodeJS and MongoDB.</li>
 			<li>Proof of vulnerability: </li>
 			<img class="horizImage" src="2_proof.png" alt="issue 2 proof 1">
-			<img class="" src="" alt="">
-			<li>Resolution: </li>
+			<li>Resolution: Check URL params for validity before inserting them. Remove all special characters from parameter string.</li>
 		</ul>
 	</div>
 
 	<div class="issue">
-		<div class="issueTitle"><h3>Title</h3></div>
+		<div class="issueTitle"><h3>Application Error Caused by Parameter String</h3></div>
 		<ul class="issueContent">
-			<li>Location:</li>
-			<li>Severity of issue: </li>
-			<li>Description: </li>
-			<img class="" src="" alt="">
+			<li>Location: location.json GET API</li>
+			<li>Severity of issue: High. I was able to cause an Application Error on the server by providing an incorrect parameter <code>login[$in]</code>. If done continuously, the app's server would never run.</li>
+			<li>Description: Similar to above, I found this problem by searching for common security issues with NodeJS and MongoDB. It seems there are many ways to insert code that Mongo will interpret if the developer is not careful.</li>
+			<img class="horizImage" src="3_description.png" alt="issue 3 description">
 			<li>Proof of vulnerability: </li>
+			<img class="horizImage" src="3_proof.png" alt="issue 3 proof">
 			<img class="" src="" alt="">
-			<img class="" src="" alt="">
-			<li>Resolution: </li>
+			<li>Resolution: Remove all special characters from parameter string since in this case none of the data params have special characters.</li>
 		</ul>
 	</div>
 
 	<h2>Conclusion</h2>
+	<p>The vulnerabilities present in my classmate's Marauder's Map application are easy to find and exploit. All it would take for the application to break is one malicious user. An application with such low security standards is not suitable for public consumption, not just because data may easily be corrupted or lost, but because it may be stolen and abused just as easily. If the data used in this app were more private, it could be a huge problem.
+	</p>
 </body>
 
 </html>
