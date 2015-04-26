@@ -27,10 +27,10 @@
 			<li>Location: login field in POST API to sendLocation</li>
 			<li>Severity of issue: High. Content on the page can easily be modified because the program trusts user input</li>
 			<li>Description: I passed a script to the sendLocation API using Postman, and saw that it was put directly into the returned JSON. The script ran on the Heroku checkin log because the logins are not escaped. On the client-side application, the falsified login appears without a name on the map.</li>
-			<img class="horizImage" src="1_description.png" alt="issue 1 description">
+			<img class="horizImage" src="images/1_description.png" alt="issue 1 description">
 			<li>Proof of vulnerability: </li>
-			<img class="vertImage" src="1_proof.png" alt="issue 1 proof">
-			<img class="horizImage" src="1_proof2.png" alt="issue 1 proof 2">
+			<img class="vertImage" src="images/1_proof.png" alt="issue 1 proof">
+			<img class="horizImage" src="images/1_proof2.png" alt="issue 1 proof 2">
 			<li>Resolution: To prevent this issue, remove the ability for data to be interpreted as code by changing characters into their HTML equivalents.</li>
 		</ul>
 
@@ -45,7 +45,7 @@
 			</li>
 			<li>Description: I found this problem by searching for common security issues with NodeJS and MongoDB.</li>
 			<li>Proof of vulnerability: </li>
-			<img class="horizImage" src="2_proof.png" alt="issue 2 proof 1">
+			<img class="horizImage" src="images/2_proof.png" alt="issue 2 proof 1">
 			<li>Resolution: Check URL params for validity before inserting them. Remove all special characters from parameter string.</li>
 		</ul>
 	</div>
@@ -56,10 +56,9 @@
 			<li>Location: location.json GET API</li>
 			<li>Severity of issue: High. I was able to cause an Application Error on the server by providing an incorrect parameter <code>login[$in]</code>. If done continuously, the app's server would never run.</li>
 			<li>Description: Similar to above, I found this problem by searching for common security issues with NodeJS and MongoDB. It seems there are many ways to insert code that Mongo will interpret if the developer is not careful.</li>
-			<img class="horizImage" src="3_description.png" alt="issue 3 description">
+			<img class="horizImage" src="images/3_description.png" alt="issue 3 description">
 			<li>Proof of vulnerability: </li>
-			<img class="horizImage" src="3_proof.png" alt="issue 3 proof">
-			<img class="" src="" alt="">
+			<img class="horizImage" src="images/3_proof.png" alt="issue 3 proof">
 			<li>Resolution: Remove all special characters from parameter string since in this case none of the data params have special characters.</li>
 		</ul>
 	</div>
