@@ -1,5 +1,4 @@
-##Jackson Clawson's Tufts Comp 20 Private Repo
-####Spring 2015
+##Jackson Clawson's Tufts Comp 20 Repo - Spring 2015
 
 This repository is a portfolio of the work I did for Comp 20 - Web Programming. gh-pages is set up in this repo and works for all of the assignments except the location-server, which is meant to be ran through Heroku. "mmap2" is a copy of "mmap", except the login name is different. So two people can log their locations on the server using the two sites and they will each have unique logins.
 
